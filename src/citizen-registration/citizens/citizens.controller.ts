@@ -1,34 +1,38 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, Render } from '@nestjs/common';
 import { CitizensService } from './citizens.service';
 import { CreateCitizenDto } from './dto/create-citizen.dto';
 import { UpdateCitizenDto } from './dto/update-citizen.dto';
 
 @Controller('citizens')
 export class CitizensController {
-  constructor(private readonly citizensService: CitizensService) {}
+  constructor(private readonly CitizensService: CitizensService) { }
+
+  @Get('create')
+  @Render('citizens/create-citizen.html')
+  createForm() {
+  }
 
   @Post()
-  create(@Body() createCitizenDto: CreateCitizenDto) {
-    return this.citizensService.create(createCitizenDto);
+  create(@Body() CreateCitizenDto: CreateCitizenDto) {
+    return this.CitizensService.create(CreateCitizenDto);
   }
 
   @Get()
   findAll() {
-    return this.citizensService.findAll();
+    return this.CitizensService.findAll();
   }
-
-  @Get(':id')
+  /*@Get(':votersinfoid')
   findOne(@Param('id') id: string) {
-    return this.citizensService.findOne(+id);
+    return this.CitizensService.findOne(+id);
   }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCitizenDto: UpdateCitizenDto) {
-    return this.citizensService.update(+id, updateCitizenDto);
+  
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateCitizenDto: UpdateCitizensDto) {
+    return this.CitizensService.update(+id, updateCitizenDto);
   }
-
+  
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.citizensService.remove(+id);
-  }
+    return this.CitizensService.remove(+id);   
+  }*/
 }

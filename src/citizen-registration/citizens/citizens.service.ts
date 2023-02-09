@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm'; 
+import { Repository } from 'typeorm';
+import { UpdateVotersinfoDto } from '../votersinfo/dto/update-votersinfo.dto';
 import { CreateCitizenDto } from './dto/create-citizen.dto';
 import { UpdateCitizenDto } from './dto/update-citizen.dto';
+import { Citizen } from './entities/citizen.entity';
 
 @Injectable()
 export class CitizensService {
-  create(createCitizenDto: CreateCitizenDto) {
+  constructor(
+    @InjectRepository(Citizen)
+    private citizensRepository: Repository<Citizen>
+    ){}
+  async create(createCitizenDto: CreateCitizenDto) {
+    const newCitizen: Citizen = this.citizensRepository.create(createCitizenDto) 
+    return this.citizensRepository.save(newCitizen);
     return 'This action adds a new citizen';
   }
 
-  findAll() {
-    return `This action returns all citizens`;
+  async findAll() {
+    //return `This action returns all citizens`;
+    return await this.citizensRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} citizen`;
+  async findOne(id: any) {
+    //return `This action returns a #${id} citizen`;
+    return await this.citizensRepository.findOne(id);
   }
 
-  update(id: number, updateCitizenDto: UpdateCitizenDto) {
-    return `This action updates a #${id} citizen`;
+  async update(id: number, updateVotersinfoDto: UpdateVotersinfoDto) {
+    //return `This action updates a #${id} voter-info`;
+    return await this.citizensRepository.update(id, updateVotersinfoDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} citizen`;
+  async remove(id: number) {
+    //return `This action removes a #${id} voter-info`;
+    return await this.citizensRepository.delete(id);
   }
 }
